@@ -1,11 +1,11 @@
 #!/bin/sh
 # Copyright (C) 2009-2013 OpenWrt.org
 
+. /lib/functions.sh
 . /lib/functions/leds.sh
-. /lib/ar71xx.sh
 
 get_status_led() {
-	local board=$(ar71xx_board_name)
+	local board=$(board_name)
 
 	case $board in
 	a40)
@@ -26,6 +26,7 @@ get_status_led() {
 	minibox-v1|\
 	som9331|\
 	sr3200|\
+	tl-wr802n-v2|\
 	xd3200)
 		status_led="$board:green:system"
 		;;
@@ -33,9 +34,12 @@ get_status_led() {
 		status_led="$board:green:vpn"
 		;;
 	ap132|\
+	ap531b0|\
+	cpe505n|\
 	db120|\
 	dr344|\
 	tew-632brp|\
+	tl-wr942n-v1|\
 	wpj344|\
 	zbt-we1526)
 		status_led="$board:green:status"
@@ -50,16 +54,28 @@ get_status_led() {
 	ap135-020)
 		status_led="ap135:green:status"
 		;;
+	archer-c25-v1|\
+	archer-c58-v1|\
+	archer-c59-v1|\
+	archer-c60-v1|\
+	archer-c7-v4|\
+	fritz300e|\
+	gl-usb150|\
 	mr12|\
 	mr16|\
 	nbg6616|\
-	tl-wpa8630)
+	sc1750|\
+	sc450|\
+	tl-wpa8630|\
+	tl-wr902ac-v1)
 		status_led="$board:green:power"
 		;;
 	ap90q|\
 	cpe830|\
 	cpe870|\
-	gl-inet)
+	gl-inet|\
+	gl-mifi|\
+	gl-ar300m)
 		status_led="$board:green:lan"
 		;;
 	ap96)
@@ -164,10 +180,13 @@ get_status_led() {
 		status_led="$board:blue:status"
 		;;
 	eap120)
-		status_led="$(ar71xx_board_name):green:system"
+		status_led="$board:green:system"
 		;;
 	eap300v2)
 		status_led="engenius:blue:power"
+		;;
+	ens202ext)
+		status_led="engenius:amber:power"
 		;;
 	eap7660d)
 		status_led="$board:green:ds4"
@@ -190,6 +209,10 @@ get_status_led() {
 	esr900)
 		status_led="engenius:amber:power"
 		;;
+	hiveap-121|\
+	nbg6716)
+		status_led="$board:white:power"
+		;;
 	hiwifi-hc6361)
 		status_led="hiwifi:blue:system"
 		;;
@@ -207,6 +230,13 @@ get_status_led() {
 	ls-sr71)
 		status_led="ubnt:green:d22"
 		;;
+	maselink-ap2600i)
+		status_led="ap2600i:green:power"
+		;;
+        maselink-ap2600ifm)
+		status_led="ap2600ifm:green:power"
+		;;
+        mw316r-v1|\
 	mc-mac1200r)
 		status_led="mercury:green:system"
 		;;
@@ -242,9 +272,6 @@ get_status_led() {
 	nbg460n_550n_550nh)
 		status_led="nbg460n:green:power"
 		;;
-	nbg6716)
-		status_led="$board:white:power"
-		;;
 	om2p|\
 	om2pv2|\
 	om2pv4|\
@@ -275,6 +302,10 @@ get_status_led() {
 	pb44)
 		status_led="$board:amber:jump1"
 		;;
+	r602n)
+		status_led="$board:green:wan"
+		;;
+	rb-2011il|\
 	rb-2011l|\
 	rb-2011uas|\
 	rb-2011uas-2hnd)
@@ -292,21 +323,31 @@ get_status_led() {
 	rb-750)
 		status_led="rb750:green:act"
 		;;
+	rb-750-r2|\
+	rb-750p-pbr2|\
+	rb-750up-r2|\
 	rb-911g-2hpnd|\
 	rb-911g-5hpacd|\
 	rb-911g-5hpnd|\
-	rb-912uag-2hpnd|\
-	rb-912uag-5hpnd)
+	rb-941-2nd|\
+	rb-951ui-2nd|\
+	rb-952ui-5ac2nd|\
+	rb-962uigs-5hact2hnt|\
+	rb-lhg-5nd|\
+	rb-mapl-2nd)
 		status_led="rb:green:user"
 		;;
-	rb-951ui-2hnd | rb-941-2nd)
+	rb-951ui-2hnd)
 		status_led="rb:green:act"
 		;;
+	rb-912uag-2hpnd|\
+	rb-912uag-5hpnd|\
 	rb-sxt2n|\
 	rb-sxt5n)
 		status_led="rb:green:power"
 		;;
-	re450)
+	re450|\
+	sc300m)
 		status_led="$board:blue:power"
 		;;
 	routerstation|\
@@ -315,6 +356,12 @@ get_status_led() {
 		;;
 	rw2458n)
 		status_led="$board:green:d3"
+		;;
+        sgr-w500-n85b-v2)
+		status_led="grentech:green:status"
+		;;
+	sgr-w500-ebi-fit-v3)
+		status_led="grentech:green:status"
 		;;
 	smart-300)
 		status_led="nc-link:green:system"
@@ -339,11 +386,16 @@ get_status_led() {
 	tl-wa750re)
 		status_led="tp-link:orange:re"
 		;;
-	tl-wa850re)
+	tl-wa850re|\
+	tl-wa850re-v2)
 		status_led="tp-link:blue:re"
 		;;
+	tl-wa855re-v1|\
 	tl-wa860re)
 		status_led="tp-link:green:power"
+		;;
+	tl-mr6400)
+		status_led="tp-link:white:power"
 		;;
 	tl-mr3220|\
 	tl-mr3220-v2|\
@@ -361,9 +413,12 @@ get_status_led() {
 	tl-wr1043nd|\
 	tl-wr1043nd-v2|\
 	tl-wr1043nd-v4|\
+	tl-wr740n-v6|\
 	tl-wr741nd|\
 	tl-wr741nd-v4|\
 	tl-wa801nd-v3|\
+	tl-wr840n-v2|\
+	tl-wr840n-v3|\
 	tl-wr841n-v1|\
 	tl-wr841n-v7|\
 	tl-wr841n-v8|\
@@ -371,7 +426,9 @@ get_status_led() {
 	tl-wa830re-v2|\
 	tl-wr842n-v2|\
 	tl-wr842n-v3|\
+	tl-wr842n-v9|\
 	tl-wr941nd|\
+        tl-wr941n-v7|\
 	tl-wr941nd-v5)
 		status_led="tp-link:green:system"
 		;;
@@ -394,9 +451,13 @@ get_status_led() {
 	tl-wr841n-v9)
 		status_led="tp-link:green:qss"
 		;;
+	tl-wr882n-v1)
+		status_led="tp-link:white:status"
+		;;
 	tl-wr2543n)
 		status_led="tp-link:green:wps"
 		;;
+        tl-wdr6500-v6|\
 	tl-wdr6500-v2)
 		status_led="tp-link:white:system"
 		;;
@@ -417,6 +478,9 @@ get_status_led() {
 	airgateway|\
 	airgatewaypro)
 		status_led="ubnt:white:status"
+		;;
+	wi2a-ac200i)
+		status_led="nokia:green:ctrl"
 		;;
 	whr-g301n|\
 	whr-hp-g300n|\
@@ -448,6 +512,9 @@ get_status_led() {
 	wpj558)
 		status_led="$board:green:sig3"
 		;;
+	wpj563)
+		status_led="$board:green:sig1"
+		;;
 	wrt400n|\
 	wrt160nl)
 		status_led="$board:blue:wps"
@@ -477,13 +544,16 @@ set_state() {
 		;;
 	done)
 		status_led_on
-		case $(ar71xx_board_name) in
+		case $(board_name) in
 		gl-ar300m)
 			fw_printenv lc >/dev/null 2>&1 && fw_setenv "bootcount" 0
 			;;
 		qihoo-c301)
 			local n=$(fw_printenv activeregion | cut -d = -f 2)
 			fw_setenv "image${n}trynum" 0
+			;;
+		wi2a-ac200i)
+			fw_setenv PKRstCnt 0
 			;;
 		esac
 		;;
